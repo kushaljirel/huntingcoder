@@ -7,14 +7,12 @@ export async function GET(req) {
     // this is another way of getting search parameters
     // const { searchParams } = new URL(request.url)
     // const yourId = searchParams.get(“slug”)
-    let count = await req.nextUrl.searchParams.get("count");
-    count = parseInt(count)
+ 
     let files = await fs.promises.readdir(
       `blogdata/`,
       "utf-8"
     );
-    const allcount = files.length;
-    files = files.slice(0, count)
+
     let fileList = []
     for (let index = 0; index < files.length; index++) {
         const currentFile = files[index];
@@ -23,7 +21,7 @@ export async function GET(req) {
         fileList.push(fileInfo)
         
     }
-    return NextResponse.json({fileList, allcount});
+    return NextResponse.json(fileList);
   } catch (err) {
     return NextResponse.json({ error: "error occured" });
   }
